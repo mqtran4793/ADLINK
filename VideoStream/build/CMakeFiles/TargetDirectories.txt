@@ -1,0 +1,3 @@
+/home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/rebuild_cache.dir
+/home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/VideoStreamSender.dir
+/home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/edit_cache.dir

@@ -1,0 +1,10 @@
+{
+  "name": "VideoStreamSender",
+  "context": "com.adlinktech.example",
+  "version": "v1.0",
+  "description": "ADLINK Edge SDK Example Video Stream sender",
+  "outputs": [{
+    "name": "video",
+    "tagGroupId": "Video:com.adlinktech.example:v1.0"
+  }]
+}
