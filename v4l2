@@ -20,33 +20,46 @@
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 #include <linux/videodev2.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 #ifndef V4L2_PIX_FMT_H264
 #define V4L2_PIX_FMT_H264	  v4l2_fourcc('H', '2', '6', '4') /* H264 with start codes */
 #endif
+
+cv::Mat m_cvMatBuffer;
+
 enum io_method {
 	IO_METHOD_READ,
 	IO_METHOD_MMAP,
 	IO_METHOD_USERPTR,
 };
+
 struct buffer {
 	void   *start;
 	size_t	length;
 };
-static char			   *dev_name;
-static enum io_method	io = IO_METHOD_USERPTR;
+
+static const char		*dev_name;
+static enum io_method	io = IO_METHOD_MMAP;
 static int				fd = -1;
-struct buffer		   *buffers;
+struct buffer		   	*buffers;
 static unsigned int		n_buffers;
 static int				out_buf;
 static int				force_format;
 static int				frame_count = 200;
 static int				frame_number = 0;
+static int				contstream = true;
+
 static void errno_exit(const char *s)
 {
 	fprintf(stderr, "%s error %d, %s\n", s, errno, strerror(errno));
 	exit(EXIT_FAILURE);
 }
+
 static int xioctl(int fh, int request, void *arg)
 {
 	int r;
@@ -55,6 +68,38 @@ static int xioctl(int fh, int request, void *arg)
 	} while (-1 == r && EINTR == errno);
 	return r;
 }
+
+void CopyMat_8bit(cv::Mat &IncomeFrame, cv::Mat &OutFrame) {
+    IncomeFrame.copyTo(OutFrame);
+    IncomeFrame.deallocate();
+    IncomeFrame.release();
+}
+
+void CopyMat(cv::Mat &OutFrame, void *Buffer) {
+    // if (pixelsize == 8) {
+        cv::Mat incomeMat(
+            cv::Size(640, 480), CV_8UC2, Buffer);
+        // CopyMat_8bit(incomeMat, OutFrame);
+		cv::cvtColor(incomeMat, m_cvMatBuffer, cv::COLOR_YUV2BGR_YUYV);
+    // } else if (pixelsize == 10) {
+    //     cv::Mat incomeMat(cv::Size(width, height), CV_16UC1, Buffer);
+    //     CopyMat_12bit(incomeMat, OutFrame);
+    // } else if (pixelsize == 12) {
+    //     cv::Mat incomeMat(cv::Size(width, height), CV_16UC1, Buffer);
+    //     CopyMat_12bit(incomeMat, OutFrame);
+    // }else{
+    //     cv::Mat incomeMat(cv::Size(width, height), CV_16UC1, Buffer);
+    //     CopyMat_12bit(incomeMat, OutFrame);
+	// }
+
+	// cv::Mat IncomeFrame(cv::Size(640, 480), CV_8UC1, Buffer);
+	// std::cout << Buffer << std::endl;
+	// // std::cout << Buffer << std::endl;
+	// IncomeFrame.copyTo(OutFrame);
+    // IncomeFrame.deallocate();
+    // IncomeFrame.release();
+}
+
 static void process_image(const void *p, int size)
 {
 	frame_number++;
@@ -65,7 +110,18 @@ static void process_image(const void *p, int size)
 		fwrite(p, size, 1, fp);
 	fflush(fp);
 	fclose(fp);
+	
+	// CopyMat(m_cvMatBuffer, (void *)p);
+	// cv::imshow("draw", m_cvMatBuffer);
+	// cv::waitKey(5);
+		//cv::resizeWindow("draw", width, height);
+
+	CopyMat(m_cvMatBuffer, (void *)p);
+	cv::imshow("draw", m_cvMatBuffer);
+	cv::waitKey(5);
+		//cv::resizeWindow("draw", width, height);
 }
+
 static int read_frame(void)
 {
 	struct v4l2_buffer buf;
@@ -101,7 +157,7 @@ static int read_frame(void)
 				}
 			}
 			assert(buf.index < n_buffers);
-			printf("%d\n", buf.bytesused);
+			printf("%d\n", buf.index);
 			process_image(buffers[buf.index].start, buf.bytesused);
 			if (-1 == xioctl(fd, VIDIOC_QBUF, &buf))
 				errno_exit("VIDIOC_QBUF");
@@ -133,11 +189,12 @@ static int read_frame(void)
 	}
 	return 1;
 }
+
 static void mainloop(void)
 {
 	unsigned int count;
 	count = frame_count;
-	while (count-- > 0) {
+	while (contstream || count-- > 0) {
 		for (;;) {
 			fd_set fds;
 			struct timeval tv;
@@ -163,6 +220,7 @@ static void mainloop(void)
 		}
 	}
 }
+
 static void stop_capturing(void)
 {
 	enum v4l2_buf_type type;
@@ -178,6 +236,7 @@ static void stop_capturing(void)
 			break;
 	}
 }
+
 static void start_capturing(void)
 {
 	unsigned int i;
@@ -218,6 +277,7 @@ static void start_capturing(void)
 			break;
 	}
 }
+
 static void uninit_device(void)
 {
 	unsigned int i;
@@ -237,9 +297,10 @@ static void uninit_device(void)
 	}
 	free(buffers);
 }
+
 static void init_read(unsigned int buffer_size)
 {
-	buffers = calloc(1, sizeof(*buffers));
+	buffers = reinterpret_cast <struct buffer *>(calloc(1, sizeof(*buffers)));
 	if (!buffers) {
 		fprintf(stderr, "Out of memory\n");
 		exit(EXIT_FAILURE);
@@ -251,6 +312,7 @@ static void init_read(unsigned int buffer_size)
 		exit(EXIT_FAILURE);
 	}
 }
+
 static void init_mmap(void)
 {
 	struct v4l2_requestbuffers req;
@@ -272,7 +334,7 @@ static void init_mmap(void)
 				dev_name);
 		exit(EXIT_FAILURE);
 	}
-	buffers = calloc(req.count, sizeof(*buffers));
+	buffers = reinterpret_cast <struct buffer *>(calloc(req.count, sizeof(*buffers)));
 	if (!buffers) {
 		fprintf(stderr, "Out of memory\n");
 		exit(EXIT_FAILURE);
@@ -296,6 +358,7 @@ static void init_mmap(void)
 			errno_exit("mmap");
 	}
 }
+
 static void init_userp(unsigned int buffer_size)
 {
 	struct v4l2_requestbuffers req;
@@ -312,7 +375,7 @@ static void init_userp(unsigned int buffer_size)
 			errno_exit("VIDIOC_REQBUFS");
 		}
 	}
-	buffers = calloc(4, sizeof(*buffers));
+	buffers = reinterpret_cast <struct buffer *>(calloc(4, sizeof(*buffers)));
 	if (!buffers) {
 		fprintf(stderr, "Out of memory\n");
 		exit(EXIT_FAILURE);
@@ -326,6 +389,7 @@ static void init_userp(unsigned int buffer_size)
 		}
 	}
 }
+
 static void init_device(void)
 {
 	struct v4l2_capability cap;
@@ -389,8 +453,8 @@ static void init_device(void)
 		fprintf(stderr, "Set H264\r\n");
 		fmt.fmt.pix.width		= 640; //replace
 		fmt.fmt.pix.height		= 480; //replace
-		fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_H264; //replace
-		fmt.fmt.pix.field		= V4L2_FIELD_ANY;
+		fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV; //replace
+		fmt.fmt.pix.field		= V4L2_FIELD_NONE;
 		if (-1 == xioctl(fd, VIDIOC_S_FMT, &fmt))
 			errno_exit("VIDIOC_S_FMT");
 		/* Note VIDIOC_S_FMT may change width and height. */
@@ -418,12 +482,14 @@ static void init_device(void)
 			break;
 	}
 }
+
 static void close_device(void)
 {
 	if (-1 == close(fd))
 		errno_exit("close");
 	fd = -1;
 }
+
 static void open_device(void)
 {
 	struct stat st;
@@ -443,6 +509,7 @@ static void open_device(void)
 		exit(EXIT_FAILURE);
 	}
 }
+
 static void usage(FILE *fp, int argc, char **argv)
 {
 	fprintf(fp,
@@ -460,6 +527,7 @@ static void usage(FILE *fp, int argc, char **argv)
 			"",
 			argv[0], dev_name, frame_count);
 }
+
 static const char short_options[] = "d:hmruofc:";
 static const struct option
 long_options[] = {
@@ -473,6 +541,7 @@ long_options[] = {
 	{ "count",	required_argument, NULL, 'c' },
 	{ 0, 0, 0, 0 }
 };
+
 int main(int argc, char **argv)
 {
 	dev_name = "/dev/video0";
