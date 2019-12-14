@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /opt/intel/openvino_2019.3.376/opencv/include -isystem /home/minhquantran/ADLINK/EdgeSDK/1.2.0/include 
+CXX_INCLUDES = -isystem /opt/intel/openvino_2019.3.376/opencv/include -I/opt/intel/openvino_2019.3.376/deployment_tools/inference_engine/include -isystem /home/adlink/ADLINK/EdgeSDK/1.2.0/include 
 

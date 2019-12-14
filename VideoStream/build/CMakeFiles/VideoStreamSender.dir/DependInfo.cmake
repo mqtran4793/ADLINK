@@ -4,14 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/src/VideoStreamSender.cpp" "/home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/VideoStreamSender.dir/src/VideoStreamSender.cpp.o"
+  "/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/src/VideoStreamSender.cpp" "/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/VideoStreamSender.dir/src/VideoStreamSender.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/intel/openvino_2019.3.376/opencv/include"
-  "/home/minhquantran/ADLINK/EdgeSDK/1.2.0/include"
+  "/opt/intel/openvino_2019.3.376/deployment_tools/inference_engine/include"
+  "/home/adlink/ADLINK/EdgeSDK/1.2.0/include"
   )
 
 # Targets to which this target links.

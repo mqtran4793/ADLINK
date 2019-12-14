@@ -1,0 +1,15 @@
+{
+  "name": "VideoStream",
+  "context": "com.adlinktech.MQ",
+  "qosProfile": "video",
+  "version": "v1.0",
+  "description": "ADLINK Edge SDK Example Video Stream TagGroup",
+  "tags": [
+    {
+    "name": "stream",
+    "description": "VideoStream",
+    "kind": "BYTE_SEQ",
+    "unit": "blob"
+    }
+  ]
+}

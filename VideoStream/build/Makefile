@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream
+CMAKE_SOURCE_DIR = /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build
+CMAKE_BINARY_DIR = /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles /home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/minhquantran/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,6 +123,59 @@ VideoStreamSender/fast:
 	$(MAKE) -f CMakeFiles/VideoStreamSender.dir/build.make CMakeFiles/VideoStreamSender.dir/build
 .PHONY : VideoStreamSender/fast
 
+#=============================================================================
+# Target rules for targets named VideoStreamReceiver
+
+# Build rule for target.
+VideoStreamReceiver: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 VideoStreamReceiver
+.PHONY : VideoStreamReceiver
+
+# fast build rule for target.
+VideoStreamReceiver/fast:
+	$(MAKE) -f CMakeFiles/VideoStreamReceiver.dir/build.make CMakeFiles/VideoStreamReceiver.dir/build
+.PHONY : VideoStreamReceiver/fast
+
+#=============================================================================
+# Target rules for targets named ie_cpu_extension
+
+# Build rule for target.
+ie_cpu_extension: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ie_cpu_extension
+.PHONY : ie_cpu_extension
+
+# fast build rule for target.
+ie_cpu_extension/fast:
+	$(MAKE) -f ie_cpu_extension/CMakeFiles/ie_cpu_extension.dir/build.make ie_cpu_extension/CMakeFiles/ie_cpu_extension.dir/build
+.PHONY : ie_cpu_extension/fast
+
+src/VideoStreamReceiver.o: src/VideoStreamReceiver.cpp.o
+
+.PHONY : src/VideoStreamReceiver.o
+
+# target to build an object file
+src/VideoStreamReceiver.cpp.o:
+	$(MAKE) -f CMakeFiles/VideoStreamReceiver.dir/build.make CMakeFiles/VideoStreamReceiver.dir/src/VideoStreamReceiver.cpp.o
+.PHONY : src/VideoStreamReceiver.cpp.o
+
+src/VideoStreamReceiver.i: src/VideoStreamReceiver.cpp.i
+
+.PHONY : src/VideoStreamReceiver.i
+
+# target to preprocess a source file
+src/VideoStreamReceiver.cpp.i:
+	$(MAKE) -f CMakeFiles/VideoStreamReceiver.dir/build.make CMakeFiles/VideoStreamReceiver.dir/src/VideoStreamReceiver.cpp.i
+.PHONY : src/VideoStreamReceiver.cpp.i
+
+src/VideoStreamReceiver.s: src/VideoStreamReceiver.cpp.s
+
+.PHONY : src/VideoStreamReceiver.s
+
+# target to generate assembly for a file
+src/VideoStreamReceiver.cpp.s:
+	$(MAKE) -f CMakeFiles/VideoStreamReceiver.dir/build.make CMakeFiles/VideoStreamReceiver.dir/src/VideoStreamReceiver.cpp.s
+.PHONY : src/VideoStreamReceiver.cpp.s
+
 src/VideoStreamSender.o: src/VideoStreamSender.cpp.o
 
 .PHONY : src/VideoStreamSender.o
@@ -157,8 +210,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... VideoStreamSender"
 	@echo "... edit_cache"
+	@echo "... VideoStreamSender"
+	@echo "... VideoStreamReceiver"
+	@echo "... ie_cpu_extension"
+	@echo "... src/VideoStreamReceiver.o"
+	@echo "... src/VideoStreamReceiver.i"
+	@echo "... src/VideoStreamReceiver.s"
 	@echo "... src/VideoStreamSender.o"
 	@echo "... src/VideoStreamSender.i"
 	@echo "... src/VideoStreamSender.s"
