@@ -1,6 +1,6 @@
 {
-    "id": "py-ada27527-4345-4242-890f-215ade35500c",
-    "classId": "VideoStreamReceiver:com.adlinktech.MQ:v1.0",
-    "contextId": "example1.receiver",
-    "description": "Edge SDK example 1 Video Stream receiver"
+    "id": "I523ESDSKJDHFJKSHDJKF1003",
+    "classId": "Camera1:com.adlinktech.aati:v1.0",
+    "contextId": "neon.camera1",
+    "description": "NEON-1040 Camera at Chad's Desk"
 }

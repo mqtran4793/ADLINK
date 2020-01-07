@@ -59,3 +59,174 @@ make[1]: *** [cmTC_9de4f/fast] Error 2
 make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
 
 
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_68c75/fast"
+/usr/bin/make -f CMakeFiles/cmTC_68c75.dir/build.make CMakeFiles/cmTC_68c75.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_68c75.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -std=c++11   -o CMakeFiles/cmTC_68c75.dir/CheckSymbolExists.c.o   -c /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_68c75
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68c75.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c++11    CMakeFiles/cmTC_68c75.dir/CheckSymbolExists.c.o  -o cmTC_68c75 
+CMakeFiles/cmTC_68c75.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_68c75.dir/build.make:97: recipe for target 'cmTC_68c75' failed
+make[1]: *** [cmTC_68c75] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_68c75/fast' failed
+make: *** [cmTC_68c75/fast] Error 2
+
+File /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d0b46/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d0b46.dir/build.make CMakeFiles/cmTC_d0b46.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d0b46.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11   -o CMakeFiles/cmTC_d0b46.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_d0b46
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d0b46.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11    CMakeFiles/cmTC_d0b46.dir/CheckFunctionExists.c.o  -o cmTC_d0b46 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d0b46.dir/build.make:97: recipe for target 'cmTC_d0b46' failed
+make[1]: *** [cmTC_d0b46] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d0b46/fast' failed
+make: *** [cmTC_d0b46/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0e13d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0e13d.dir/build.make CMakeFiles/cmTC_0e13d.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0e13d.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -std=c++11   -o CMakeFiles/cmTC_0e13d.dir/CheckSymbolExists.c.o   -c /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_0e13d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0e13d.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c++11    CMakeFiles/cmTC_0e13d.dir/CheckSymbolExists.c.o  -o cmTC_0e13d 
+CMakeFiles/cmTC_0e13d.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_0e13d.dir/build.make:97: recipe for target 'cmTC_0e13d' failed
+make[1]: *** [cmTC_0e13d] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_0e13d/fast' failed
+make: *** [cmTC_0e13d/fast] Error 2
+
+File /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_afaf8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_afaf8.dir/build.make CMakeFiles/cmTC_afaf8.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_afaf8.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11   -o CMakeFiles/cmTC_afaf8.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_afaf8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_afaf8.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11    CMakeFiles/cmTC_afaf8.dir/CheckFunctionExists.c.o  -o cmTC_afaf8 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_afaf8.dir/build.make:97: recipe for target 'cmTC_afaf8' failed
+make[1]: *** [cmTC_afaf8] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_afaf8/fast' failed
+make: *** [cmTC_afaf8/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_89a84/fast"
+/usr/bin/make -f CMakeFiles/cmTC_89a84.dir/build.make CMakeFiles/cmTC_89a84.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_89a84.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -std=c++11   -o CMakeFiles/cmTC_89a84.dir/CheckSymbolExists.c.o   -c /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_89a84
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_89a84.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c++11    CMakeFiles/cmTC_89a84.dir/CheckSymbolExists.c.o  -o cmTC_89a84 
+CMakeFiles/cmTC_89a84.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_89a84.dir/build.make:97: recipe for target 'cmTC_89a84' failed
+make[1]: *** [cmTC_89a84] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_89a84/fast' failed
+make: *** [cmTC_89a84/fast] Error 2
+
+File /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ef4dd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ef4dd.dir/build.make CMakeFiles/cmTC_ef4dd.dir/build
+make[1]: Entering directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ef4dd.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11   -o CMakeFiles/cmTC_ef4dd.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+cc1: warning: command line option ‘-std=c++11’ is valid for C++/ObjC++ but not for C
+Linking C executable cmTC_ef4dd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ef4dd.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++11    CMakeFiles/cmTC_ef4dd.dir/CheckFunctionExists.c.o  -o cmTC_ef4dd -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_ef4dd.dir/build.make:97: recipe for target 'cmTC_ef4dd' failed
+make[1]: *** [cmTC_ef4dd] Error 1
+make[1]: Leaving directory '/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/cpp/VideoStream/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_ef4dd/fast' failed
+make: *** [cmTC_ef4dd/fast] Error 2
+
+

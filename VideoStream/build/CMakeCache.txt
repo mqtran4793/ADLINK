@@ -205,9 +205,6 @@ KERNEL_LIBRARY:FILEPATH=/home/adlink/ADLINK/Vortex_v2/Device/VortexOpenSplice/6.
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/opt/intel/openvino_2019.3.376/opencv/cmake
 
-//The directory containing a CMake configuration file for OpenVINO.
-OpenVINO_DIR:PATH=OpenVINO_DIR-NOTFOUND
-
 //Path to a file.
 TBB_INCLUDE_DIRS:PATH=/opt/intel/openvino_2019.3.376/deployment_tools/inference_engine/external/tbb/include
 

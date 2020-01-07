@@ -55,12 +55,12 @@ private:
 
 public:
     VideoStreamSender(string thingPropertiesUri) :m_thingPropertiesUri(thingPropertiesUri) {
-        cout << "Video Stream sender started" << endl;
+        cout << "Video Stream Sender started" << endl;
     }
 
     ~VideoStreamSender() {
         m_dataRiver.close();
-        cout << "Video Stream sender stopped" << endl;
+        cout << "Video Stream Sender stopped" << endl;
     }
 
     int run(int runningTime) {

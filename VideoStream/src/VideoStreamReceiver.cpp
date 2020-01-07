@@ -61,6 +61,18 @@ using namespace InferenceEngine;
 #define READ_SAMPLE_DELAY 100
 
 cv::Mat frame;
+cv::Mat mask;
+
+// cv::bitwise_not(mask, mask);
+// cv::Mat element = getStructuringElement(cv::MORPH_RECT, cv::Size(20, 20) );
+// cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, element); //Does the trick
+
+
+cv::Ptr<cv::MSER> mser = cv::MSER::create();
+vector<vector<cv::Point>> regions;
+vector<cv::Rect> boundingBox;
+cv::Mat croppedFrame;
+
 InputsDataMap *inputInfo;
 OutputsDataMap *outputInfo;
 Core core;
@@ -83,25 +95,19 @@ int loadNetwork(string modelNetwork, string modelWeights, Core plugin, string ta
     CNNNetReader networkReader;
     networkReader.ReadNetwork(modelNetwork);
     networkReader.ReadWeights(modelWeights);
-    // networkReader.getNetwork().setBatchSize(1);
     CNNNetwork network = networkReader.getNetwork();
 
     // Get input info
     inputInfo = new InputsDataMap(network.getInputsInfo());
     inputName = &(inputInfo->begin()->first);
     inputDims = inputInfo->begin()->second->getTensorDesc().getDims();
-    size_t batchSize = network.getBatchSize();
-    cout << "Batch size " << batchSize << endl;
-    cout << inputDims.size() << endl;
 
     modelChannels = inputDims[1];
     modelHeight = inputDims[2];
     modelWidth = inputDims[3];
 
-    channelSize = modelHeight * modelWidth;
-    inputSize = channelSize * modelChannels;
-
     // Set input info
+    (*inputInfo)[*inputName]->getPreProcess().setResizeAlgorithm(RESIZE_AREA);
     (*inputInfo)[*inputName]->setPrecision(Precision::U8);
     (*inputInfo)[*inputName]->setLayout(Layout::NCHW);
 
@@ -109,8 +115,6 @@ int loadNetwork(string modelNetwork, string modelWeights, Core plugin, string ta
     outputInfo = new OutputsDataMap(network.getOutputsInfo());
     outputName = &(outputInfo->begin()->first);
     outputDims = outputInfo->begin()->second->getDims();
-
-    cout << outputDims.size() << endl;
 
     // Set output info
     (*outputInfo)[*outputName]->setPrecision(Precision::FP32);
@@ -126,47 +130,50 @@ int loadNetwork(string modelNetwork, string modelWeights, Core plugin, string ta
 }
 
 template <typename T>
-void cvMatToBlob(const cv::Mat &orig_image, Blob::Ptr &blob)
+void cvMatToBlob(const cv::Mat &orig_image, Blob::Ptr &blob, int batchIndex = 0)
 {
     SizeVector blobSize = blob.get()->getTensorDesc().getDims();
-    size_t channels = blobSize[1];
-    size_t height = blobSize[2];
-    size_t width = blobSize[3];
-
-    auto resolution = height * width;
+    const size_t channels = blobSize[1];
+    const size_t height = blobSize[2];
+    const size_t width = blobSize[3];
 
     // Get pointer to blob data as type T
-    T *blobData = blob->buffer().as<T *>();
+    T *blobData = blob->buffer().as<T*>();
 
-    // cv::Mat resized_image(orig_image);
-    // if (static_cast<int>(width) != orig_image.size().width ||
-    //         static_cast<int>(height) != orig_image.size().height) {
-    //     cv::resize(orig_image, resized_image, cv::Size(width, height));
-    // }
+    cv::Mat resized_image(orig_image);
+    if (static_cast<int>(width) != orig_image.size().width ||
+            static_cast<int>(height) != orig_image.size().height) {
+        cv::resize(orig_image, resized_image, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+    }
 
-    // Fill blob
-    // for(size_t c = 0; c < channels; c++)
-    // {
-    //     auto aux = c * resolution;
-    //     for(size_t h = 0; h < height; h++)
-    //     {
-    //         auto aux2 = h * width;
-    //         for(size_t w = 0; w < width; w++)
-    //         {
-    //             blobData[aux + aux2 + w] = orig_image.at<cv::Vec3b>(h, w)[c];
-    //         }
-    //     }
-    // }
+    int batchOffset = batchIndex * width * height * channels;
 
-    for(size_t c = 0; c < 1; c++)
+    if(channels == 1)
     {
-        for(size_t h = 0; h < resolution; h++)
+        for(size_t h = 0; h < height; h++)
         {
-            for(size_t w = 0; w < channels; w++)
+            for(size_t w = 0; w < width; w++)
             {
-                blobData[c*resolution*channels + w*channels + h] = orig_image.at<cv::Vec3b>(h, w)[c];
+                blobData[batchOffset + h * width + w] = resized_image.at<uchar>(h, w);
             }
         }
+    }
+    else if(channels == 3)
+    {
+        for(size_t c = 0; c < channels; c++)
+        {
+            for(size_t h = 0; h < height; h++)
+            {
+                for(size_t w = 0; w < width; w++)
+                {
+                    blobData[batchOffset + c * width * height + h * width + w] = resized_image.at<cv::Vec3b>(h, w)[c];
+                }
+            }
+        }
+    }
+    else
+    {
+        THROW_IE_EXCEPTION << "Unsupported number of channels";
     }
 
     return;
@@ -177,48 +184,30 @@ void fillInputBlob(cv::Mat img)
     Blob::Ptr inputBlob;
     inputBlob = inferRequest->GetBlob(*inputName);
 
-    // cvMatToBlob<uchar>(img, inputBlob);
-    SizeVector blobSize = inputBlob.get()->getTensorDesc().getDims();
-    size_t channels = blobSize[1];
-    size_t height = blobSize[2];
-    size_t width = blobSize[3];
+    // cv::Mat resized_image(orig_image);
+    // if (static_cast<int>(width) != orig_image.size().width ||
+    //         static_cast<int>(height) != orig_image.size().height) {
+        // if(img.size != NULL)
+        // {
+        // cv::resize(orig_image, resized_image, cv::Size(28, 28), 0, 0, cv::INTER_AREA);
+        
+    // }
 
-    auto resolution = height * width;
+    cvMatToBlob<uchar>(img, inputBlob);
+    // matU8ToBlob<uint8_t>(img, inputBlob);
 
-    cout << "Filled blob: " << channels << " " << height << " " << width << endl;
+    // cout << "Cropped Frame shape: " << resized_image.size << endl;
+    // Blob::Ptr imgBlob = wrapMat2Blob(resized_image);
 
-    // Get pointer to blob data as type T
-    // T *blobData = blob->buffer().as<T *>();
-    auto data = inputBlob->buffer().as<PrecisionTrait<Precision::U8>::value_type*>();
-
-    cv::Mat resized_image;
-    if (static_cast<int>(width) != img.size().width ||
-            static_cast<int>(height) != img.size().height) {
-        cv::resize(img, resized_image, cv::Size(width, height));
-    }
-
-    // Fill blob
-    for(size_t c = 0; c < channels; c++)
-    {
-        auto aux = c * resolution;
-        for(size_t h = 0; h < height; h++)
-        {
-            auto aux2 = h * width;
-            for(size_t w = 0; w < width; w++)
-            {
-                data[aux + aux2 + w] = resized_image.at<cv::Vec3b>(h, w)[c];
-            }
-        }
-    }
-
-    // cout << "Finished filling blob" << endl;
+    // inferRequest->SetBlob(*inputName, inputBlob);
+        // }
 }
 
 void inferenceRequest()
 {
     inferRequest->StartAsync();
 
-    // cout << "Finished requesting inference" << endl;
+    // inferRequest->Infer();
 }
 
 StatusCode wait()
@@ -228,9 +217,36 @@ StatusCode wait()
 
 float *inference()
 {
-    // cout << "Before return" << endl;
-
     return inferRequest->GetBlob(*outputName)->buffer().as<PrecisionTrait<Precision::FP32>::value_type*>();
+}
+
+void boxReduce(vector<cv::Rect> &mserBox)
+{
+    for(int i = mserBox.size()-1; i >= 0; i--)
+    {
+        if((mserBox[i].height/mserBox[i].width > 3) ||
+            (mserBox[i].width/mserBox[i].height > 3) ||
+            (mserBox[i].height < 30) ||
+            (mserBox[i].width < 30))
+        {
+            mserBox.erase(mserBox.begin()+i);
+        }
+    }
+
+    for(int i = mserBox.size()-1; i >= 1; i--)
+    {
+        for(int j = i-1; j >= 0; j--)
+        {
+            if((mserBox[i] & mserBox[j]) == mserBox[i])
+            {
+                mserBox.erase(mserBox.begin()+i);
+            }
+            else if((mserBox[j] & mserBox[i]) == mserBox[j])
+            {
+                mserBox.erase(mserBox.begin()+j);
+            }
+        }
+    }
 }
 
 class VideoStreamReceiver {
@@ -246,12 +262,12 @@ private:
     Thing createThing() {
         // Create and Populate the TagGroup registry with JSON resource files.
         JSonTagGroupRegistry tgr;
-        tgr.registerTagGroupsFromURI("file://definitions/TagGroup/com.adlinktech.MQ/VideoStreamTagGroup.json");
+        tgr.registerTagGroupsFromURI("file://definitions/TagGroup/com.adlinktech.aati/VideoStreamTagGroup.json");
         m_dataRiver.addTagGroupRegistry(tgr);
 
         // Create and Populate the ThingClass registry with JSON resource files.
         JSonThingClassRegistry tcr;
-        tcr.registerThingClassesFromURI("file://definitions/ThingClass/com.adlinktech.MQ/VideoStreamReceiverThingClass.json");
+        tcr.registerThingClassesFromURI("file://definitions/ThingClass/com.adlinktech.aati/VideoStreamReceiverThingClass.json");
         m_dataRiver.addThingClassRegistry(tcr);
 
         // Create a Thing based on properties specified in a JSON resource file.
@@ -260,6 +276,8 @@ private:
 
         return m_dataRiver.createThing(tp);
     }
+
+    
 
 public:
     VideoStreamReceiver(string thingPropertiesUri) : m_thingPropertiesUri(thingPropertiesUri) {
@@ -299,8 +317,8 @@ public:
         //     auto input = infer_request.GetBlob(input_name);
         // }
 
-        string modelNetwork = "/home/adlink/Desktop/Numbs/model/v2/handwritten_uint8.xml";
-        string modelWeights = "/home/adlink/Desktop/Numbs/model/v2/handwritten_uint8.bin";
+        string modelNetwork = "/home/adlink/Desktop/Numbs/model/v3/handwritten_digits_detection_FP32.xml";
+        string modelWeights = "/home/adlink/Desktop/Numbs/model/v3/handwritten_digits_detection_FP32.bin";
         string targetDevice = "MYRIAD";
 
         loadNetwork(modelNetwork, modelWeights, core, targetDevice);
@@ -321,7 +339,7 @@ public:
 
         while(1) {
             // Read all data for input 'temperature'
-            vector<DataSample<IOT_NVP_SEQ> > msgs = m_thing.read<IOT_NVP_SEQ>("video");
+            vector<DataSample<IOT_NVP_SEQ> > msgs = m_thing.read<IOT_NVP_SEQ>("camera");
 
             for (const DataSample<IOT_NVP_SEQ>& msg : msgs) {
                 auto flowState = msg.getFlowState();
@@ -329,31 +347,115 @@ public:
                     const IOT_NVP_SEQ& dataSample = msg.getData();
                     try {
                         for (const IOT_NVP& nvp : dataSample) {
-                            if (nvp.name() == "video") {
+                            if (nvp.name() == "camera") {
                                 // Buffer = nvp.value().iotv_byte_seq();
                                 //incomeMat.data = Buffer;
                                 cv::Mat incomeMat(nvp.value().iotv_byte_seq());
                                 //cout << incomeMat.total() << endl;
-                                frame = incomeMat.reshape(1, 480);
+                                frame = incomeMat.reshape(1, 500);
                                 // cout << frame.col(0).total() << endl;
                                 // cv::resize(incomeMat, frame, cv::Size(720, 720));
                             }
-                            cout << "Frame total: " << frame.total() << endl;
-                            // cout << "1" << endl;
-                            fillInputBlob(frame);
-                            // Blob::Ptr imgBlob = wrapMat2Blob(frame);
-                            // inferRequest->SetBlob(*inputName, imgBlob);
-                            // cout << "2" << endl;
-                            // inferenceRequest();
-                            inferRequest->Infer();
-                            // cout << "3" << endl;
-                            if(wait() == 0)
+
+                            cv::threshold(frame, mask, 200, 255, cv::THRESH_BINARY);
+                            mser->detectRegions(mask, regions, boundingBox);
+
+                            // for(int i = 0; i < mserBox.size(); i++)
+                            // {
+                            //     cv::rectangle(frame, mserBox[i], CV_RGB(255, 255, 255));
+                            // }
+                            // cv::imshow("Video Captured", frame);
+                            // cv::imshow("Masked Video Captured", mask);
+                            
+                            // cout << "Before delete: " << boundingBox.size() << endl;
+
+                            // mserBox.erase(mserBox.begin());
+                            // mserBox.erase(mserBox.begin()+1);
+                            // mserBox.erase(mserBox.begin()+2);
+
+                            boxReduce(boundingBox);
+
+                            // for(int i = 0; i < mserBox.size(); i++)
+                            // {
+                            //     if((mserBox[i] & mserBox[i+1]).area() > 0)
+                            //     {
+                            //         cout << "Found intersected box" << endl;
+                            //     }
+                            // }
+
+                            // cout << "After delete: " << boundingBox.size() << endl;
+
+                            for(int i = 0; i < boundingBox.size(); i++)
                             {
-                            Blob::Ptr outputBlob = inferRequest->GetBlob(*outputName);
-                        
-                            ClassificationResult classificationResult(outputBlob, imageNames, 1, 5, resultsID);
-                            classificationResult.print();
+                                // if(mserBox[i].width < 50 || mserBox[i].height < 50)
+                                // {
+                                //     continue;
+                                // }
+                                // top = (int)(0.8*mserBox[i].height);
+                                // bottom = top;
+                                // right = (int)(0.8*mserBox[i].width);
+                                // left = right;
+                                
+                                cv::Rect myROI(boundingBox[i]);
+                                croppedFrame = mask(myROI);
+                                cv::copyMakeBorder(croppedFrame, croppedFrame, 50, 50, 50, 50, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
+                                // cv::resize(croppedFrame, croppedFrame, cv::Size(28, 28));
+                                // cv::imwrite("image" + to_string(i) + ".jpg", croppedFrame);
+                                // cv::rectangle(frame, mserBox[i], CV_RGB(255, 255, 255));
+                            
+                                
+                                // cout << "1" << endl;
+                                // cv::Mat resizedFrame;
+                                // cv::resize(frame, resizedFrame, cv::Size(28, 28));
+                                
+                                fillInputBlob(croppedFrame);
+                                // Blob::Ptr imgBlob = wrapMat2Blob(frame);
+                                // inferRequest->SetBlob(*inputName, imgBlob);
+                                // cout << "2" << endl;
+                                inferenceRequest();
+                                // inferRequest->Infer();
+                                // cout << "3" << endl;
+                                
+                                if(wait() == 0)
+                                {
+                                    Blob::Ptr outputBlob = inferRequest->GetBlob(*outputName);
+                                
+                                    // ClassificationResult classificationResult(outputBlob, imageNames, 1, 2, resultsID);
+                                    // classificationResult.print();
+                                    float *result = inference();
+                                    // cout << result[0] << "\t"
+                                    //     << result[1] << "\t"
+                                    //     << result[2] << "\t"
+                                    //     << result[3] << "\t"
+                                    //     << result[4] << "\t"
+                                    //     << result[5] << "\t"
+                                    //     << result[6] << "\t"
+                                    //     << result[7] << "\t"
+                                    //     << result[8] << "\t"
+                                    //     << result[9] << endl;
+                                    int highestPropIndex = 0;
+                                    for(int i = 1; i < 10; i++)
+                                    {
+                                        // if(result[i] > 0.8)
+                                        // {
+                                            
+                                            // cout << "Detected #: " << resultsID[i] << endl;
+                                            // cv::rectangle(frame, cv::Point(0, 440), cv::Point(245, 480), cv::Scalar(0, 0, 0), -1, 8, 0);
+                                            // cv::putText(frame, "Detected #: " + resultsID[i], cv::Point(5, 470), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar(255, 255, 255), 2);
+                                            
+                                            
+                                        // }
+                                        if(result[i] > result[highestPropIndex])
+                                        {
+                                            highestPropIndex = i;
+                                        }
+                                        
+                                    }
+                                    cv::rectangle(frame, boundingBox[i], cv::Scalar(255, 255, 255), 2);
+                                    cv::putText(frame, resultsID[highestPropIndex], cv::Point(boundingBox[i].x-30, boundingBox[i].y+10), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar(255, 255, 255), 2);
+                                }
                             }
+                            
                             // if(wait() == 0)
                             // {
                             //     float *results = inference();
@@ -378,6 +480,7 @@ public:
                             //     [results[id] + image_id * (_outBlob->size() / _batchSize)];
                             // }
                             cv::imshow("Video Captured", frame);
+                            cv::imshow("Masked Video Captured", mask);   
                         }
                     }
                     catch (exception& e) {

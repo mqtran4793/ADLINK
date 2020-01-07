@@ -63,8 +63,8 @@ static UNUSED InferenceEngine::Blob::Ptr wrapMat2Blob(const cv::Mat &mat) {
             strideW == channels &&
             strideH == channels * width;
 
-    if (!is_dense) THROW_IE_EXCEPTION
-                << "Doesn't support conversion from not dense cv::Mat";
+    // if (!is_dense) THROW_IE_EXCEPTION
+    //             << "Doesn't support conversion from not dense cv::Mat";
 
     InferenceEngine::TensorDesc tDesc(InferenceEngine::Precision::U8,
                                       {1, channels, height, width},
