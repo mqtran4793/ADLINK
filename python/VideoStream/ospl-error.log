@@ -1,0 +1,195 @@
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-11-21T18:09:32-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <26120>
+Thread      : main thread 7f02a5094b80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_FILE_OPEN_FAILED: File "/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/python/VideoStream/definitions/TagGroup/com.adlinktech.MQ/VideoStreamTagGroup.json" could not be opened
+Internals   : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)/JSonTagGroupRegistry.cpp/50/0/1574388572.688502360
+========================================================================================
+Context     : void com::adlinktech::datariver::DataRiver::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)
+Date        : 2019-11-22T09:36:32-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <2549>
+Thread      : main thread 7f1b7d4ebb80
+Internals   : DataRiver.cpp/61/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_MISSING_OUTPUT_TAG_GROUP: Output tag group "Video:com.adlinktech.MQ:v1.0" was not found in the system
+Internals   : void com::adlinktech::datariver::DataRiverImpl::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)/DataRiverImpl.cpp/402/0/1574444192.904411444
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-11-22T10:33:01-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <5926>
+Thread      : main thread 7f7f65c42740
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_FILE_OPEN_FAILED: File "/home/adlink/ADLINK/EdgeSDK/1.2.0/examples/python/VideoStream/definitions/TagGroup/com.adlinktech.example/VideoStreamTagGroup.json" could not be opened
+Internals   : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)/JSonTagGroupRegistry.cpp/50/0/1574447581.023709843
+========================================================================================
+Context     : void com::adlinktech::datariver::ThingImpl::write(const string&, const IOT_NVP_SEQ&)
+Date        : 2019-11-22T13:00:01-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <17365>
+Thread      : main thread 7f01036adb80
+Internals   : ThingImpl.cpp/661/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_BAD_TAG_VALUE: Value of tag "video" does not match the type specified in the tag group definition.
+Internals   : bool com::adlinktech::datariver::OutputHandlerImpl::validateData(const IOT_NVP_SEQ&, std::map<std::__cxx11::basic_string<char>, com::adlinktech::datariver::TagDefinitionImpl>&)/ThingImpl.cpp/1298/0/1574456401.404882976
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T16:56:40-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <7665>
+Thread      : main thread 7f00f158cb80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_JSON_IOT_TYPE: The specified type ("MULTI_DIM_NVP_SEQ") of field "type/kind" is invalid.
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkIoTType(const string&)/JSonRapidJSonThingParser.cpp/904/0/1575334600.844821714
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T17:02:14-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <7839>
+Thread      : main thread 7f8472186b80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_JSON_IOT_TYPE: The specified type ("MULTIDIM_NVP_SEQ") of field "type/kind" is invalid.
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkIoTType(const string&)/JSonRapidJSonThingParser.cpp/904/0/1575334934.131014334
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T17:04:48-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <7986>
+Thread      : main thread 7ff754d06b80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_JSON_IOT_TYPE: The specified type ("MULTI_NVP") of field "type/kind" is invalid.
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkIoTType(const string&)/JSonRapidJSonThingParser.cpp/904/0/1575335088.269070826
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T17:06:31-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <8085>
+Thread      : main thread 7fc577a7bb80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_BAD_JSON_TAGS_FIELD: Object must contain only one of "tags" or "typedefinition" fields.{
+    "name": "video",
+    "description": "VideoStream",
+    "kind": "NVP_SEQ",
+    "unit": "n/a"
+}
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkTagsField(const Value&)/JSonRapidJSonThingParser.cpp/918/0/1575335191.617457168
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T17:07:13-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <8158>
+Thread      : main thread 7f7097119b80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_JSON_IOT_TYPE: The specified type ("MULTI_NVP") of field "type/kind" is invalid.
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkIoTType(const string&)/JSonRapidJSonThingParser.cpp/904/0/1575335233.923932655
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonTagGroupRegistry::registerTagGroupsFromURI(const string&)
+Date        : 2019-12-02T17:32:40-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <8573>
+Thread      : main thread 7f6f10af4b80
+Internals   : JSonTagGroupRegistry.cpp/43/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_JSON_IOT_TYPE: The specified type ("MULTI_NVP") of field "type/kind" is invalid.
+Internals   : void com::adlinktech::datariver::JSonRapidJSonThingParser::checkIoTType(const string&)/JSonRapidJSonThingParser.cpp/904/0/1575336760.051410130
+========================================================================================
+Context     : com::adlinktech::datariver::Thing com::adlinktech::datariver::DataRiver::createThing(const com::adlinktech::datariver::ThingProperties&)
+Date        : 2019-12-09T10:06:29-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13369>
+Thread      : main thread 7f1bf43da740
+Internals   : DataRiver.cpp/95/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_THING_CLASS_NOT_FOUND: Thing Class "Camera:com.adlinktech.aati:v1.0" was not found
+Internals   : std::shared_ptr<com::adlinktech::datariver::ThingImpl> com::adlinktech::datariver::DataRiverImpl::createThing(const com::adlinktech::datariver::ThingProperties&)/DataRiverImpl.cpp/451/0/1575914789.159893500
+========================================================================================
+Context     : std::vector<com::adlinktech::datariver::DataSample<std::vector<com::adlinktech::iot::IOT_NVP> > > com::adlinktech::datariver::ThingImpl::read(const string&, int64_t)
+Date        : 2019-12-09T10:07:06-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13447>
+Thread      : main thread 7f395cdd4740
+Internals   : ThingImpl.cpp/548/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_INVALID_INPUT_NAME: An invalid inputName, "video" was passed to Thing::read or Thing::read_next.
+Internals   : std::vector<com::adlinktech::datariver::DataSample<std::vector<com::adlinktech::iot::IOT_NVP> > > com::adlinktech::datariver::ThingImpl::read(const string&, int64_t)/ThingImpl.cpp/555/0/1575914826.050154019
+========================================================================================
+Context     : void com::adlinktech::datariver::DataRiver::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)
+Date        : 2019-12-09T10:10:32-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13719>
+Thread      : main thread 7f9b82055740
+Internals   : DataRiver.cpp/61/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_DUPLICATE_THING_CLASS: Failed to add thing class: Camera:com.adlinktech.aati:v1.0. A conflict thing class with the same key detected in the system.
+Internals   : void com::adlinktech::datariver::DataRiverImpl::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)/DataRiverImpl.cpp/427/0/1575915032.303522160
+========================================================================================
+Context     : void com::adlinktech::datariver::DataRiver::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)
+Date        : 2019-12-09T10:11:18-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13801>
+Thread      : main thread 7f6fff0ac740
+Internals   : DataRiver.cpp/61/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_DUPLICATE_THING_CLASS: Failed to add thing class: Camera:com.adlinktech.aati:v1.0. A conflict thing class with the same key detected in the system.
+Internals   : void com::adlinktech::datariver::DataRiverImpl::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)/DataRiverImpl.cpp/427/0/1575915078.377573132
+========================================================================================
+Context     : void com::adlinktech::datariver::DataRiver::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)
+Date        : 2019-12-09T10:11:40-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13880>
+Thread      : main thread 7f29d87f6740
+Internals   : DataRiver.cpp/61/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_DUPLICATE_THING_CLASS: Failed to add thing class: Camera:com.adlinktech.aati:v1.0. A conflict thing class with the same key detected in the system.
+Internals   : void com::adlinktech::datariver::DataRiverImpl::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)/DataRiverImpl.cpp/427/0/1575915100.884444124
+========================================================================================
+Context     : void com::adlinktech::datariver::DataRiver::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)
+Date        : 2019-12-09T10:12:34-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <13982>
+Thread      : main thread 7f9328910740
+Internals   : DataRiver.cpp/61/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_DUPLICATE_THING_CLASS: Failed to add thing class: Camera:com.adlinktech.aati:v1.0. A conflict thing class with the same key detected in the system.
+Internals   : void com::adlinktech::datariver::DataRiverImpl::addThingClassRegistry(const com::adlinktech::datariver::ThingClassRegistry&)/DataRiverImpl.cpp/427/0/1575915154.821838252
+========================================================================================
+Context     : com::adlinktech::datariver::Thing com::adlinktech::datariver::DataRiver::createThing(const com::adlinktech::datariver::ThingProperties&)
+Date        : 2019-12-11T10:54:54-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <18971>
+Thread      : main thread 7f22ee79f740
+Internals   : DataRiver.cpp/95/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_THING_CLASS_NOT_FOUND: Thing Class "Camera1:com.adlinktech.aati:v1.0" was not found
+Internals   : std::shared_ptr<com::adlinktech::datariver::ThingImpl> com::adlinktech::datariver::DataRiverImpl::createThing(const com::adlinktech::datariver::ThingProperties&)/DataRiverImpl.cpp/451/0/1576090494.096773744
+========================================================================================
+Context     : com::adlinktech::datariver::Thing com::adlinktech::datariver::DataRiver::createThing(const com::adlinktech::datariver::ThingProperties&)
+Date        : 2019-12-11T10:56:05-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <19043>
+Thread      : main thread 7f6a6f32b740
+Internals   : DataRiver.cpp/95/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_THING_CLASS_NOT_FOUND: Thing Class "Camera1:com.adlinktech.aati:v1.0" was not found
+Internals   : std::shared_ptr<com::adlinktech::datariver::ThingImpl> com::adlinktech::datariver::DataRiverImpl::createThing(const com::adlinktech::datariver::ThingProperties&)/DataRiverImpl.cpp/451/0/1576090565.867528910
+========================================================================================
+Context     : virtual void com::adlinktech::datariver::JSonThingProperties::readPropertiesFromURI(const string&)
+Date        : 2019-12-11T10:58:32-0800
+Node        : adlink-LEC-ALAI
+Process     : python3.6 <19232>
+Thread      : main thread 7f2093744740
+Internals   : JSonThingProperties.cpp/42/6.10.3/ab06e92ccf/8f19187365/-1
+----------------------------------------------------------------------------------------
+Report      : E_JSON_PARSE_ERROR: Error parsing JSON document at line 0, column 0: The document is empty.
+Internals   : bool com::adlinktech::datariver::JSonRapidJSonThingParser::checkParsingResult(const Document&, const char*)/JSonRapidJSonThingParser.cpp/222/0/1576090712.382782014

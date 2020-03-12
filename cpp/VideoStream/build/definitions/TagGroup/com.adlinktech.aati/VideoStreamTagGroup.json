@@ -1,0 +1,15 @@
+{
+  "name": "Camera",
+  "context": "com.adlinktech.aati",
+  "qosProfile": "video",
+  "version": "v1.0",
+  "description": "ADLINK Edge SDK Example Camera TagGroup",
+  "tags": [
+    {
+    "name": "camera",
+    "description": "Camera",
+    "kind": "BYTE_SEQ",
+    "unit": "C"
+    }
+  ]
+}

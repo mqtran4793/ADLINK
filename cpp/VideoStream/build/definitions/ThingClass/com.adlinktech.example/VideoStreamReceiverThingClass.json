@@ -1,0 +1,10 @@
+{
+  "name": "VideoStreamReceiver",
+  "context": "com.adlinktech.example",
+  "version": "v1.0",
+  "description": "ADLINK Edge SDK Example Video Stream receiver",
+  "inputs": [{
+    "name": "video",
+    "tagGroupId": "Video:com.adlinktech.example:v1.0"
+  }]
+}
