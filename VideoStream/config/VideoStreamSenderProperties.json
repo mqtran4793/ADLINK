@@ -1,6 +1,0 @@
-{
-    "id": "PY-79EC6787DA88",
-    "classId": "VideoStreamSender:com.adlinktech.MQ:v1.0",
-    "contextId": "example1.sender",
-    "description": "Edge SDK example 1 Video Stream sender"
-}
